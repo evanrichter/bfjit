@@ -18,6 +18,31 @@ pub struct BfVM<'io> {
     output: Box<dyn Write + 'io>,
 }
 
+#[cfg(fuzzing)]
+impl<'io> BfVM<'io> {
+    pub const MEMORY_SIZE: usize = MEMORY_SIZE;
+    pub fn fuzz_new(
+        code: dynasmrt::ExecutableBuffer,
+        start: dynasmrt::AssemblyOffset,
+        memory: Box<[u8]>,
+        input: Box<dyn Read + 'io>,
+        output: Box<dyn Write + 'io>,
+    ) -> Self {
+        Self {
+            code,
+            start,
+            memory,
+            input,
+            output,
+        }
+    }
+    pub fn fuzz_compile(
+        code: &[BfIR],
+    ) -> Result<(dynasmrt::ExecutableBuffer, dynasmrt::AssemblyOffset)> {
+        BfVM::compile(code)
+    }
+}
+
 #[inline(always)]
 fn vm_error(re: RuntimeError) -> *mut VMError {
     let e = Box::new(VMError::from(re));

@@ -115,7 +115,10 @@ impl<'io> BfVM<'io> {
         // ptr:          rcx r15
 
         dynasm!(ops
-            ; push rax
+            ; push r12
+            ; push r13
+            ; push r14
+            ; push r15
             ; mov r12, rdi   // save this
             ; mov r13, rsi   // save memory_start
             ; mov r14, rdx   // save memory_end
@@ -194,7 +197,10 @@ impl<'io> BfVM<'io> {
             ; jmp >exit
             ; -> io_error:
             ; exit:
-            ; pop rdx
+            ; pop r15
+            ; pop r14
+            ; pop r13
+            ; pop r12
             ; ret
         );
 

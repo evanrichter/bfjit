@@ -1,0 +1,7 @@
+project: bfjit
+target: differential
+
+cmds:
+  - cmd: /differential
+  - cmd: /differential_no_inst @@
+    libfuzzer: false

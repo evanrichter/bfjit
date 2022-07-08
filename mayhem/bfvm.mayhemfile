@@ -1,0 +1,7 @@
+project: bfjit
+target: bfvm
+
+cmds:
+  - cmd: /bfvm
+  - cmd: /bfvm_no_inst @@
+    libfuzzer: false
